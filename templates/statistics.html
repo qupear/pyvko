@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Stats</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.1/dist/chartjs-adapter-moment.min.js"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f8;
+            padding: 0;
+            margin: 0;
+        }
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        header {
+            background: #4c75a3;
+            color: white;
+            padding: 16px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 20px;
+        }
+        .time {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin: 15px 0;
+            color: #4c75a3;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            padding: 20px;
+        }
+        .chart-container {
+            width: 100%;
+            height: 500px;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 12px;
+            border-top: 1px solid #eee;
+        }
+        @media (min-width: 768px) {
+            .charts-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (min-width: 1200px) {
+            .charts-grid {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Stats</h1>
+            <div class="time">Time: {{ current_time }}</div>
+        </header>
+        <a href="{{ url_for('index') }}" class="back-link">← Back to list</a>
+
+        <div class="charts-grid">
+            <div class="chart-wrapper">
+                <h2 style="text-align: center;">Hours</h2>
+                <div class="chart-container">
+                    <canvas id="hourlyActivityChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-wrapper">
+                <h2 style="text-align: center;">Days</h2>
+                <div class="chart-container">
+                    <canvas id="weeklyActivityChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-wrapper">
+                <h2 style="text-align: center;">City</h2>
+                <div class="chart-container">
+                    <canvas id="cityActivityChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Distinct connections</p>
+        </footer>
+    </div>
+
+    
+    <script>
+        window.STATS_DATA = {
+            hourly: {{ hourly_stats | tojson }},
+            weekly: {{ weekly_stats | tojson }},
+            city: {{ city_stats | tojson }}
+        };
+        console.log("📊 Load to window.STATS_DATA:", window.STATS_DATA);
+    </script>
+
+    
+    <script defer src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
