@@ -42,19 +42,14 @@ class TestDatabase(unittest.TestCase):
             'domain': 'test_user'
         }
 
-        # Assume we have a record in vk_users with id=1
-        # In real tests, it's better to use mock or a test database
         user_id_db = 1  # vk_users.id table
 
-        # Save
         save_to_db(user_id_db, test_user_data)
         print("✅ test_save_and_load_user: Data saved.")
 
-        # Load
         users = load_users_with_latest_photos()
         self.assertIsInstance(users, list, "❌ load_users_with_latest_photos() should return a list")
 
-        # Find our test user
         test_user_found = None
         for user in users:
             if user['user_id'] == user_id_db:
