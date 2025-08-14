@@ -1,2 +1,2 @@
 # pyvko
-vk.com api utilization with python
+vk api utilization with python
