@@ -8,7 +8,7 @@ from database import (
     load_archived_users, restore_user_from_archive, load_activity_stats,
     load_weekly_activity_stats, load_city_activity_stats
 )
-from config import FLASK_HOST, FLASK_PORT, FLASK_DEBUG, SECRET_KEY
+from config import FLASK_HOST, FLASK_PORT, FLASK_DEBUG, SECRET_KEY, APP_MODE
 from datetime import datetime
 from config import OUTPUT_HTML
 
@@ -174,6 +174,7 @@ def delete_user(user_db_id):
 @app.route('/run-monitoring')
 def run_monitoring():
     try:
+        print(f"🔄 /run-monitoring: load main.py in mode {APP_MODE.upper()}...")
         main_script_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'main.py')
         result = subprocess.run(
             [sys.executable, main_script_path], 
