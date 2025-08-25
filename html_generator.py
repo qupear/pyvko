@@ -157,7 +157,7 @@ def generate_html(users_data):
         # --- Generate photo ---
         src = PLACEHOLDER
         if user['photo_base64']:
-            src = f"image/jpeg;base64,{user['photo_base64']}"
+            src = f"data:image/jpeg;base64,{user['photo_base64']}"
 
         card_class = 'user-card'
         if is_birthday_soon(user['bdate']):
