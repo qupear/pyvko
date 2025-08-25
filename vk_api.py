@@ -2,7 +2,7 @@
 import requests
 import time
 from datetime import datetime
-from config import VK_ACCESS_TOKEN, API_VERSION
+from config import VK_ACCESS_TOKEN, API_VERSION, APP_MODE
 from database import save_to_db
 
 def get_users_info(vk_id_pairs):
@@ -189,7 +189,12 @@ def get_users_info(vk_id_pairs):
                     }
                     all_users.append(full_user)
                     
-                    save_to_db(db_id, full_user)
+                    if APP_MODE == 'db':
+                        print(f"💾 Save data for {full_user['name']} to db...")
+                        save_to_db(db_id, full_user)
+                        time.sleep(1)
+                    else:
+                        print(f"🧠 Data for {full_user['name']} load (mode 'memory')")
                     
                     print(f" ✅ Processed: {full_user['name']} (Friends: {friends_count}, Followers: {followers_count})")
                     time.sleep(1)
